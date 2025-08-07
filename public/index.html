@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vehicle Chess for Kids</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f0f0f0; }
+    table { border-collapse: collapse; margin: 20px auto; }
+    td { width: 60px; height: 60px; text-align: center; font-size: 24px; }
+    .white { background: #fff; }
+    .black { background: #ccc; }
+  </style>
+</head>
+<body>
+  <h1>🚗 Vehicle Chess for Kids 🚂</h1>
+  <table id="chessBoard"></table>
+  <button onclick="getTip()">Get Gemini Tip</button>
+  <p id="geminiTip">Tip will appear here...</p>
+
+  <script>
+    const board = [
+      ['🚌','🏍️','🚗','🚁','🚂','🚗','🏍️','🚌'],
+      ['🛴','🛴','🛴','🛴','🛴','🛴','🛴','🛴'],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['🛴','🛴','🛴','🛴','🛴','🛴','🛴','🛴'],
+      ['🚌','🏍️','🚗','🚁','🚂','🚗','🏍️','🚌']
+    ];
+
+    function drawBoard() {
+      const table = document.getElementById("chessBoard");
+      table.innerHTML = "";
+      for (let r = 0; r < 8; r++) {
+        const row = document.createElement("tr");
+        for (let c = 0; c < 8; c++) {
+          const cell = document.createElement("td");
+          cell.className = (r + c) % 2 === 0 ? "white" : "black";
+          cell.innerText = board[r][c];
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+    }
+
+    async function getTip() {
+      const res = await fetch('/api/gemini');
+      const data = await res.json();
+      document.getElementById("geminiTip").innerText = data.tip;
+    }
+
+    drawBoard();
+  </script>
+</body>
+</html>
